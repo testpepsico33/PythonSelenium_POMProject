@@ -10,6 +10,7 @@ from pages.AccountSuccessPage import AccountSuccessPage
 from pages.HomePage import HomePage
 from pages.RegisterPage import RegisterPage
 from test.BaseTest import BaseTest
+from utilities import Excelutils
 
 
 class TestRegister(BaseTest):
@@ -18,7 +19,11 @@ class TestRegister(BaseTest):
         home_page = HomePage(self.driver)
         register_page=home_page.navigate_to_register_page()
 
-        account_success_page=register_page.register_an_account("Nirmal Kumar","CJ",self.generate_email_with_time_stamp(),"1234567890","12345","12345","select")
+        account_success_page=register_page.register_an_account(Excelutils.get_cell_data("C://Users//nimalkumar.j//PycharmProjects//HybridePythonSeleniumFramework//ExcelFiles//TutorialsNinja.xlsx","RegisterTest",2,1),
+                                                               (Excelutils.get_cell_data("C://Users//nimalkumar.j//PycharmProjects//HybridePythonSeleniumFramework//ExcelFiles//TutorialsNinja.xlsx","RegisterTest",2,2)),
+
+                                                               self.generate_email_with_time_stamp(),
+                                                               "1234567890","12345","12345","select")
 
         expected_heading_text = "Your Account Has Been Created!"
         assert account_success_page.retrieve_account_creation_message().__eq__(expected_heading_text)
